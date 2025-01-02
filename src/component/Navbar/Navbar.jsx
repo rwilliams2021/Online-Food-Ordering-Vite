@@ -34,13 +34,50 @@ export const Navbar = () => {
         }
     }
     return (
-        <Box sx={{ zIndex: 100 }} className='px-5 sticky top-0 z-50 py-[.8rem] bg-[#e91e63] lg:px-20 flex justify-between'>
-            <div className="lg:mr-10 cursor-pointer flex items-center space-x-4">
-                <li onClick={() => navigate("/")} style={{ cursor: "pointer" }} className='logo font-semibold text-gray-300 text-2xl list-none'>
-                    Restaurant Delivery
-                </li>
+        <Box sx={{ zIndex: 100 }} className='px-4 md:px-0 sticky w-full top-0 z-50 py-4 md:py-10 bg-pink lg:px-20 flex items-center justify-between relative'>
+            <div className="container cursor-pointer flex items-center justify-between">
+                <div onClick={() => navigate("/")} style={{ cursor: "pointer" }} className='logo-text font-semibold text-gray-300 text-base lg:text-2xl list-none'>
+                    <p className="pt-3 text-white font-borel text-lg font-bold">Restaurant Delivery</p>
+                </div>
+                <div className='md:hidden flex items-center'>
+                    <div onClick={
+                        () => {
+                            const mobMenu = document.querySelector(".mob-menu__container")
+                            mobMenu.classList.toggle("hidden")
+                        }
+                    } className='mobMenu__icon leading-none'><span class="material-symbols-outlined">menu</span>
+                    </div>
+                </div>
+                <div className='mob-menu__container md:hidden absolute hidden top-full left-0 items-start px-4 lg:space-x-10 flex flex-col py-4 bg-[#333333] w-full'>
+                    <div>
+                        <IconButton>
+                            <SearchIcon sx={{ fontSize: "1.5rem" }} />
+                        </IconButton>
+                    </div>
+                    <div>
+                        {
+                            auth.user ?
+                                (
+                                    <Avatar style={{ cursor: "pointer" }} onClick={handleAvatarClick} sx={{ bgcolor: "white", color: pink.A400 }}>{auth.user?.fullname[0].toUpperCase()}</Avatar>
+                                )
+                                :
+                                (
+                                    <IconButton onClick={() => navigate("/account/login")}>
+                                        <Person />
+                                    </IconButton>
+                                )
+                        }
+                    </div>
+                    <div>
+                        <IconButton onClick={() => navigate("/cart")} style={{ cursor: "pointer" }}>
+                            <Badge color='primary' badgeContent={cart.cart?.items.length}>
+                                <ShoppingCartIcon sx={{ fontSize: "1.5rem" }} />
+                            </Badge>
+                        </IconButton>
+                    </div>
+                </div>
             </div>
-            <div className='flex items-center space-x-2 lg:space-x-10'>
+            <div className='items-center space-x-2 lg:space-x-10 hidden md:flex'>
                 <div>
                     <IconButton>
                         <SearchIcon sx={{ fontSize: "1.5rem" }} />
